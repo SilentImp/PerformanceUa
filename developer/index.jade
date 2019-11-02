@@ -1,0 +1,2320 @@
+extends ./partials/layout.jade
+
+block title
+    title Продуктивність
+
+block slides
+
+    article.illustration.illustration--title.center
+        .wrapper
+            h1 Продуктивнiсть
+
+    article.center.text-title.size-1
+        .wrapper
+            h1 Проблема
+        .subtitle
+            p — What problem are we solving?
+
+    article.illustration.illustration--degradation
+        h1 ДеградацiяДеградацiя
+        .subtitle
+            p — A project with the best performance ever will loose its performance with each new feature.
+
+    article.center.text-title.size-2
+        .wrapper
+            h1 Мета
+
+    article.center.illustration.illustration--prevent
+        .wrapper
+            h1 Запобiгти
+        .subtitle
+            p — We need to prevent this kind of degradation!
+
+    article.center.illustration.illustration--prevent
+        .wrapper
+            h1 Вимiрювати
+        .subtitle
+            p — Best way to do it: measure performance on a regular basis.
+
+    //- article.center.targets
+    //-     .wrapper
+    //-         ul
+    //-             li What do we measure?
+    //-             li Why do we measure?
+    //-             li How do we measure?
+
+    article.center.metrics
+        .wrapper
+            h1 Метрики
+            ul.half
+                li Time to first byte
+                //- time-to-first-byte
+                li Total byte weight
+                //- total-byte-weight
+                li Network request count
+                //- network-requests
+                li First meaningful paint
+                //- first-meaningful-paint
+            ul.half
+                li Speed index
+                //- speed-index
+                li First input delay
+                //- max-potential-fid
+                li Time to interactive
+                //- interactive
+                li Bundle size
+                li …
+        .subtitle
+            p — Choose metrics. Which one? It highly depends on your context.
+
+    article.center.competitors
+        .wrapper
+            h1 Конкуренти допоможуть
+            ul.half
+                li Marktplaats
+                li Kluswebsite
+                li Casius
+                li Zoofy
+            ul.half
+                li Skydreams
+                li Solvari
+                li Yonego
+                li Offerte.nl
+        .subtitle
+            p — How to set target values? Make a list of your competitors and set your goals on their basis.
+
+    article.center.illustration.illustration--bear
+        .subtitle
+            p — When you are chased by a bear you don't need to be an Olympic champion in running.
+
+    article.center.illustration.illustration--bear-2
+        .subtitle
+            p — You just need to be faster than the other guy.
+
+    article.center.percent-title
+        .wrapper
+            h1 +20%
+        .subtitle
+            p — Let's add to competitors metrics 20%. It's a magic number so user really may see the difference with the naked eye.
+
+    article.center.illustration.illustration--box
+
+    article.screen.screen--performancebudget.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Визначте бажаний час
+            img.overlay__qr(src="images/performancebudget.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="http://www.performancebudget.io/", data-click=true) http://www.performancebudget.io/
+
+
+    article.center.types
+        .wrapper
+            h1 Типи вимiрювань
+            .half
+                img(src="images/glass2.png", alt="lab")
+            .half
+                img(src="images/rum.jpg", alt="lab")
+        .subtitle
+            p — There are two types of measurements: laboratory and real user measurements.
+
+    //- article.center.parts
+    //-     .wrapper
+    //-         ul
+    //-             li Pipe-line
+    //-             li Server-side
+    //-             li Client-side
+
+    article.center.pipeline-title
+        .wrapper
+            h1 continuous
+                br
+                | integration
+        .subtitle
+            p — We use laboratory measurements locally and in the CI
+
+    article.center.pipeline-title
+        .wrapper
+            h1 Розмiр бандла
+        .subtitle
+            p — Let's start with a bundle size as an easy pick
+
+    article.screen.screen--size-limit.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Size Limit
+            img.overlay__qr(src="images/sizelimiturl.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://github.com/ai/size-limit/", data-click=true) https://github.com/ai/size-limit/
+
+        .subtitle
+            p - This package is created by Andrey Sitnik and best pick for libraries.
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.bash.
+                    npm i -D size-limit/preset-small-lib
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.diff.
+                    // package.json
+                    + "size-limit": [
+                    +   {
+                    +     "path": "index.js"
+                    +   }
+                    + ],
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.diff.
+                    // package.json
+                    "scripts": {
+                    +   "size": "size-limit",
+                        "test": "jest && eslint ."
+                    }
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.shell.
+                    npm run size
+
+    article.screen.screen--size-limit-first
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.diff.
+                    // package.json
+                    "size-limit": [
+                        {
+                    +       "limit": "2 KB",
+                            "path": "index.js"
+                        }
+                    ],
+
+    article.screen.screen--size-limit-second
+
+    article.screen.screen--size-limit-err
+
+    article.illustration.illustration--gitlab-runner
+
+    article.screen.screen--artifacts.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title GitLab Artifacts
+            img.overlay__qr(src="images/artifacts.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://docs.gitlab.com/ee/ci/yaml/README.html#artifacts", data-click=true) https://bit.ly/2knRWgE
+
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.yml.
+                    # .gitlab-ci.yml
+                    script:
+                        - npm run size
+                    artifacts:
+                        expire_in: 7 days
+                        paths:
+                            - metric.txt
+                        reports:
+                            metrics: metric.txt
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.diff.
+                    // package.json
+                    "scripts": {
+                    -    "size": "size-limit",
+                    +    "size": "size-limit --json
+                    +       > size-limit.json",
+                    +    "postsize": "node generate-metric.js
+                    +       > metric.txt"
+                        "test": "jest && eslint ."
+                    },
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.json.
+                    // size-limit.json
+                    [{
+                        "name": "index.js",
+                        "passed": true,
+                        "size": 1957
+                    }]
+
+
+    article.center.code-3
+        .wrapper
+            pre
+                code.
+                    // generate-metric.js
+                    const report = require('./size-limit.json');
+                    process.stdout.write(`size ${(report[0].size/1024).toFixed(1)}`);
+                    process.exit(0);
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.
+                    // metric.txt
+                    size 1.19
+
+    article.screen.screen--prometeus.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Prometheus text-based format
+            img.overlay__qr(src="images/prometheusText.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format", data-click=true) https://bit.ly/2kbi6mZ
+
+    article.screen.screen--metric-one
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.
+                    metric1Name: currentValue1 (OldValue1)
+                    metric2Name: currentValue2 (OldValue2)
+
+    article.screen.screen--metric-one.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Example with library
+            img.overlay__qr(src="images/lib.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://gitlab.com/silentimp/metrics-test/merge_requests/3", data-click=true) https://bit.ly/2jVaDZ3
+
+    article.illustration.illustration--webpack
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.json.
+                    "performance": {
+                        "hints": "warning",
+                        "maxEntrypointSize": 400000,
+                        "maxAssetSize": 100000
+                    }
+
+    article.screen.screen--native
+
+    article.screen.screen--native2
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.bash.
+                    webpack
+                        --profile
+                        --json
+                        > stats.json
+
+    article.illustration.illustration--nextjs
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.bash npm i -S @zeit/next-bundle-analyzer
+
+    article.center.code-3
+        .wrapper
+            pre
+                code.js.
+                    // next.config.js
+                    const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+                    module.exports = withBundleAnalyzer({/* … */});
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    // next.config.js
+                    const nextConfig = {
+                        analyzeBrowser: true,
+                        bundleAnalyzerConfig: {/* … */},
+                        webpack (config) {
+                            return config;
+                        }};
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.js.
+                    // next.config.js
+                    browser: {
+                        analyzerMode: 'disabled',
+                        generateStatsFile: true,
+                        statsFilename: 'client.json',
+                        statsOptions: {/* … */},
+                    }},
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.json.
+                    statsOptions: {
+                        chunks: true,
+                        assets: false,
+                        cached: false,
+                        cachedAssets: false,
+                        chunkModules: false,
+                        chunkOrigins: false,
+                        entrypoints: false,
+                        modules: false,
+                        reasons: false }
+
+    article.screen.screen--bundle
+
+    article.screen.screen--bundle.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Example with next.js
+            img.overlay__qr(src="images/bundle.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://gitlab.com/silentimp/bundlemetrics/merge_requests/3", data-click=true) https://bit.ly/2jVaDZ3
+
+    article.center.logotypes
+        .wrapper
+            .half
+                img(src="images/octocat.png", alt="logotype")
+            .half
+                img(width="80%",src="images/travisci.png", alt="logotype")
+
+    article.screen.screen--checks.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title GitHub Checks
+            img.overlay__qr(src="images/checks.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://developer.github.com/v3/checks/", data-click=true) https://developer.github.com/v3/checks/
+
+    article.screen.screen--statuses.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title GitHub Statuses
+            img.overlay__qr(src="images/statuses.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://developer.github.com/v3/repos/statuses/", data-click=true) https://developer.github.com/v3/repos/statuses/
+
+    article.screen.screen--bundlesize-npm.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Bundlesize
+            img.overlay__qr(src="images/bundlesize.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://www.npmjs.com/package/bundlesize", data-click=true) https://www.npmjs.com/package/bundlesize
+
+
+    article.center.code-8
+        .wrapper
+            pre
+                code.json.
+                    npm install -D bundlesize
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.json.
+                    // bundlesize.config.json
+                    {"files": [
+                        {
+                            "path": "./.next/static/chunks/*.js",
+                            "maxSize": "300 kB"
+                        },
+                        …
+                    ]}
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.diff.
+                    // package.json
+                    "scripts": {
+                    +   "test": "bundlesize",
+                    }
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.
+                    npm t
+
+    article.screen.screen--bundlesize-success
+
+    article.screen.screen--bundlesize-fail
+
+    article.center.code-3
+        .wrapper
+            pre
+                code.yaml.
+                    # .travis.yml
+                    language: node_js
+                    node_js:
+                        - 10
+                    branches:
+                        only:
+                            - master
+                    install:
+                        - npm ci
+                        - npm run build
+                    script:
+                        - npm t
+
+    article.screen.screen--bundlesize-app.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Give bundlesize app access to your repos
+            img.overlay__qr(src="images/bundlesize-app.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://github.com/login/oauth/authorize?scope=repo%3Astatus&client_id=6756cb03a8d6528aca5a", data-click=true) https://bit.ly/2kpdVnA
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.
+                    travis encrypt BUNDLESIZE_GITHUB_TOKEN=token --add
+
+    article.screen.screen--bundlesize-1
+
+    article.screen.screen--bundlesize-2
+
+    article.screen.screen--bundlesize-app-fail
+
+    article.screen.screen--codechecks.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Codechecks
+            img.overlay__qr(src="images/codechecks.svg", alt="QRCODE with link")
+            p
+                a.overlay__link(href="https://codechecks.io", data-click=true) https://codechecks.io
+
+
+    article.center.sitespeed-title
+        .wrapper
+            h1 site
+                br
+                | speed.io
+
+    article.screen.screen--sitespeed.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Sitespeed
+            img.overlay__qr(src="images/sitespeed.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.sitespeed.io/", data-click=true) https://www.sitespeed.io/
+
+    article.screen.screen--sitespeed-docs.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title How to use sitespeed in GitLab CI
+            img.overlay__qr(src="images/sitespeed-docs.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://docs.gitlab.com/ee/ci/examples/browser_performance.html", data-click=true) https://bit.ly/2kbYhfj
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.yaml.
+                    # .gitlab-ci.yml
+                    stages:
+                        - performance
+                    performance:
+                        stage: performance
+                        image: docker:git
+                        services:
+                            - docker:stable-dind
+
+    article.center.code-3
+        .wrapper
+            pre
+                code.yaml.
+                    # .gitlab-ci.yml
+                    script:
+                        - mkdir gitlab-exporter
+                        - wget -O ./gitlab-exporter/index.js
+                            https://gitlab.com/gitlab-org
+                            /gl-performance/raw/master/index.js
+                        - mkdir sitespeed-results
+                        - docker run --shm-size=1g --rm -v
+                            "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io:9.8.1
+                            --plugins.add ./gitlab-exporter
+                            --outputFolder sitespeed-results
+                            http://werkspot.nl/inloggen/
+                        - mv sitespeed-results/data/performance.json
+                            performance.json
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.yaml.
+                    # .gitlab-ci.yml
+                    artifacts:
+                        expire_in: 7 days
+                        paths:
+                            - performance.json
+                        reports:
+                            performance: performance.json
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.json.
+                    // performance.json
+                    [{
+                        "subject":"/",
+                        "metrics":[{
+                            "name":"Transfer Size (KB)",
+                            "value":"19.5",
+                            "desiredSize":"smaller"
+                        }]}]
+
+    article.screen.screen--sitespeed-example
+
+    article.screen.screen--sitespeed-example.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Sitespeed example
+            img.overlay__qr(src="images/sitespeed-example.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://gitlab.com/silentimp/sitespeed-test/merge_requests/1", data-click=true) https://bit.ly/2kbWqHn
+
+
+    article.center.lighthouse-title
+        .wrapper
+            h1 lighthouse
+
+    article.center.logotypes
+        .wrapper
+            .half
+                img(src="images/puppeteer.png", alt="logotype")
+            .half
+                img(src="images/pwa-lighthouse.png", alt="logotype")
+
+
+
+    //- article.center
+    //-     .wrapper
+    //-         img(src="images/pwa-lighthouse.png", alt="logotype")
+
+    //- article.center.code-7
+    //-     .wrapper
+    //-         pre
+    //-             code.bash.
+    //-                 npm i -D browser-perf
+    //-                 npm i -D selenium-standalone
+
+    //- article.center.code-2
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 new Promise((resolve, reject) => {
+    //-                     selenium.install(
+    //-                         {seleniumArgs:
+    //-                             ['--singleDriverInstall=chrome']},
+    //-                         error => {
+    //-                             if (installError) reject(installError);
+    //-                             createHub().then(resolve)
+    //-                         })});
+
+    //- article.center.code-1
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 const createHub = () => {
+    //-                     return new Promise((resolve, reject) => {
+    //-                     selenium.start({
+    //-                         seleniumArgs: ['-port', 4444],
+    //-                     }, (startError, hub) => {
+    //-                         if (startError) reject(startError);
+    //-                         resolve(hub);
+    //-                     })})};
+
+    //- article.center.code-10
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 hub.kill();
+
+    //- article.center.code-1
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 browserPerf(
+    //-                     url,
+    //-                     (err, result) => {/*…*/},
+    //-                     {
+    //-                         selenium:
+    //-                             'http://localhost:4444/wd/hub',
+    //-                         browsers:
+    //-                             ['chrome'],
+    //-                     });
+
+    //- article.center.code-6
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 if (result.mean_frame_time > 40)
+    //-                     process.exit(1);
+    //-                 process.exit(0);
+
+    //- article.screen.screen--server-timing.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title Server Timing
+    //-         img.overlay__qr(src="images/server-timing.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://www.w3.org/TR/2019/WD-server-timing-20190307/", data-click=true) https://www.w3.org/TR/2019/WD-server-timing-20190307/
+
+    //- article.center
+    //-     .wrapper
+    //-         img(src="images/pwa-lighthouse.png", alt="logotype")
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.bash.
+                    npm i -D lighthouse
+                    npm i -D puppeteer
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const browser =
+                        await puppeteer.launch({
+                            args: [
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox',
+                            '--headless'
+                            ]});
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    const lighthouseConfig = {
+                        port: (
+                            new URL(browser.wsEndpoint())
+                        ).port,
+                        output: 'json',
+                        logLevel: 'info',
+                    };
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const auditConfig = {
+                        extends: 'lighthouse:default',
+                        settings: {
+                        onlyCategories: ['performance']
+                    }};
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    const auditConfig = {
+                        extends: 'lighthouse:full'
+                    };
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    const {
+                        report: reportJSON,
+                        lhr: {
+                            audits
+                        }} = await lighthouse(
+                            'http://werkspot.nl/',
+                            lighthouseConfig,
+                            auditConfig);
+
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    if (audits["speed-index"].score < 0.75)
+                            process.exit(1);
+                    process.exit(0);
+
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    const {categories: {
+                        performance: {
+                            score
+                        }
+                    }} = JSON.parse(reportJSON);
+                    if (score < 0.75)
+                            process.exit(1);
+                    process.exit(0);
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 process.stdout.write(JSON.stringify([{
+    //-                     "subject": '/inloggen',
+    //-                     "metrics": metrics.map(metric => ({
+    //-                         "name": metric.title,
+    //-                         "value": metric.value,
+    //-                         "desiredSize": "larger",
+    //-                     }))
+    //-                 }]));
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.javascript.
+                    const report = JSON.stringify([{
+                        "subject": '/inloggen',
+                        "metrics": metrics.map(metric => ({
+                            "name": metric.title,
+                            "value": metric.value,
+                            "desiredSize": "larger",
+                        }))
+                    }]);
+                    fs.writeFileSync(`./performance.json`, report);
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.yml.
+                    # .gitlab-ci.yml
+                    image: node:latest
+
+                    stages:
+                    - performance
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.yml.
+                    lighthouse:
+                        stage: performance
+                        before_script:
+                            - apt-get update
+                            - apt-get -y install gconf-service …
+                            - npm ci
+                        script:
+                            - node performance.js
+
+    article.deps
+        .wrapper gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.yml.
+                    artifacts:
+                        expire_in: 7 days
+                        paths:
+                            - performance.json
+                        reports:
+                            performance: performance.json
+
+
+    //- article.center.code-6
+    //-     .wrapper
+    //-         pre
+    //-             code.diff.
+    //-                 "scripts": {
+    //-                 +    "lighthouse":
+    //-                 +        "node performance.js
+    //-                 +            > performance.json"
+    //-                 },
+
+    article.screen.screen--lighthouse-art
+
+    article.screen.screen--lighthouse-art.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Lighthouse example
+            img.overlay__qr(src="images/demo.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://gitlab.com/silentimp/lighthouse", data-click=true) https://gitlab.com/silentimp/lighthouse
+
+    article.screen.screen--lighthouse-metric
+
+    article.screen.screen--lighthouse-metric-example
+
+    article.screen.screen--lighthouse-metric-example.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Lighthouse example (the cool one)
+            img.overlay__qr(src="images/demoreport.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://gitlab.com/silentimp/lighthousereport", data-click=true) https://bit.ly/2m6m80d
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.javascript.
+                    const page = await browser.newPage();
+                    await page.goto(url, { waitUntil: 'networkidle2' });
+                    await page.click('input[name=email]');
+                    await page.keyboard.type(USER_EMAIL);
+                    await page.click('input[name=password]');
+                    await page.keyboard.type(USER_PASSWORD);
+                    await page.click('button[type="submit"]',
+                        { waitUntil: 'domcontentloaded' });
+
+
+    article.screen.screen--gist
+
+    article.screen.screen--gist.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Lighthouse script gist
+            img.overlay__qr(src="images/gist.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://gist.github.com/SilentImp/1a770e4f5b9d8dc1e0e92c54f76357f9", data-click=true) https://gitlab.com/silentimp/lighthouse
+
+
+    article.screen.screen--lighthouse.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Lighthouse
+            img.overlay__qr(src="images/lighthouse.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://developers.google.com/web/tools/lighthouse/", data-click=true) https://bit.ly/2jnLfpG
+
+    article.screen.screen--puppeteer-screen.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Puppeteer
+            img.overlay__qr(src="images/puppeteer.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://pptr.dev/", data-click=true) https://pptr.dev/
+
+
+    //- article.screen.screen--server-timing.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title Server Timing
+    //-         img.overlay__qr(src="images/server-timing.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://www.w3.org/TR/2019/WD-server-timing-20190307/", data-click=true) https://www.w3.org/TR/2019/WD-server-timing-20190307/
+
+    //- article.center.server-title
+    //-     .wrapper
+    //-         h1 Server-
+    //-             br
+    //-             | Side
+
+    article.center.text-title
+        .wrapper
+            h1 Server
+                br
+                | Timing
+
+    article.center.text-title-5
+        .wrapper
+            h1 Нащо
+                br
+                | це
+                br
+                | нам?
+
+    article.center.list
+        .wrapper
+            ul
+                li Передайте результати вимiрювань з сервера до клієнта
+                li Може використовуватися для розподіленого трасування
+                li Допомагає у логуваннi та відлагоджуваннi
+
+    article.center.text-title-2
+        .wrapper
+            h1 Що воно
+                br
+                | таке?
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.http.
+                    Server-Timing:
+                        cache;
+                        desc="Cache Read";
+                        dur=23.2
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.http.
+                    Server-Timing: cache
+
+    article.center.text-title-3
+        .wrapper
+            h1 Що
+                br
+                | воно
+                br
+                | робить?
+
+
+    article.screen.screen--server-timing-screen-opera
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.javascript.
+                    performance.getEntriesByType('navigation');
+                    performance.getEntriesByType('resource');
+
+    article.screen.screen--client-server-timing
+
+    //- article.screen.screen--client-server-timing-table
+
+    article.center.text-title-4
+        .wrapper
+            h1 Де воно робить?
+
+    article.screen.screen--server-timing-caniuse
+
+    article.screen.screen--blink-edge
+
+    article.screen.screen--server-timing-screen
+
+    article.screen.screen--server-timing-screen-opera
+
+    article.screen.screen--server-timing-screen-safari
+
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.javascript.
+                    Timing-Allow-Origin: *
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.javascript.
+                    Chrome v60-64
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.javascript.
+                    Server-Timing:
+                        cache=23.2;
+                        "Cache Read"
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.javascript.
+                    HTTPS
+
+
+    article.screen.screen--server-timing-screen-email
+
+    article.screen.screen--server-timing-screen-ff
+
+    //- article.center.text-title-5
+    //-     .wrapper
+    //-         h1 Why do we need
+    //-             br
+    //-             | it?
+
+    //- article.center.code-7
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 node --inspect ./server.js
+
+    //- article.illustration.illustration--if
+
+    article.center.text-title-7
+        .wrapper
+            h1 Як кори&shy;стуватися?
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    const express = require('express');
+                    const app = express();
+                    app.get('/', (req, res) => {
+                        //…
+                        res.send(200).end();
+                    });
+                    app.listen(3000);
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    res.set(
+                        'Server-Timing',
+                        'cache;
+                         desc="Cache Read";
+                         dur=23.2');
+
+    article.screen.screen--server-timing-screen
+
+    article.center.text-title-1
+        .wrapper
+            h1 Як вимi&shy;рювати?
+
+    article.center.code-8
+        .wrapper
+            pre
+                code.javascript.
+                    // node.js v0.7.6
+                    process.hrtime();
+                    // integer[]
+                    // [ seconds, nanoseconds ]
+                    // [ 8063, 904046009 ]
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.
+                    const from = process.hrtime();
+                    const duration = process.hrtime(from);
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    // To milliseconds
+                    const ms = parseInt(
+                                duration[0] * 1e3 +
+                                duration[1] * 1e-6,
+                               10);
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    // node.js v10.7.0, Stage 3
+                    const from = process.hrtime.bigint();
+                    const to = process.hrtime.bigint();
+                    const duration = to - from;
+                    // To milliseconds
+                    const ms = duration / 1000000n;
+
+
+    article.screen.screen--bigint.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title BigInt
+            img.overlay__qr(src="images/bigint.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://tc39.github.io/proposal-bigint/", data-click=true) https://tc39.github.io/proposal-bigint/
+
+    article.center.text-title-6
+        .wrapper
+            h1 Потрiбен iнструмент!
+
+    article.screen.screen--npm-server-timing.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Server Timing npm package
+            img.overlay__qr(src="images/npm-server-timing.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.npmjs.com/package/server-timing-header", data-click=true) https://www.npmjs.com/package/server-timing-header
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.bash.
+                    npm i -S server-timing-header
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const express = require('express');
+                    const app = express();
+                    app.get('/', (req, res) => {
+                        //…
+                        res.send(200).end();
+                    });
+                    app.listen(3000);
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.diff.
+                    + const serverTiming =
+                    +    require('server-timing-header');
+                      const express = require('express');
+                      const app = express();
+                    + app.use(serverTiming());
+                      app.get('/', (req, res) => {
+                          //…
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    req.serverTiming.from('db');
+                    // fetching data from database
+                    req.serverTiming.to('db');
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    req.serverTiming.add(
+                        'cache', // name
+                        'Cache Read', //description
+                        23.2 // value
+                    );
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    req.serverTiming.add(
+                        'cache',
+                        'Element not in cache',
+                    );
+
+    article.screen.screen--server-timing-screen
+
+    article.center.text-title-2
+        .wrapper
+            h1 Наведи приклад
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.javascript.
+                    import { ApolloLink } from 'apollo-link';
+                    import uuidv4 from 'uuid/v4';
+
+                    const serverTimingLink = request =>
+                        new ApolloLink((operation, forward) => {
+                            /* … */
+                        });
+
+                    export default serverTimingLink;
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.js.
+                    const id = uuidv4();
+                    if (request) request.serverTiming.from(
+                            `${operation.operationName}-${id}`,
+                            operation.operationName
+                        );
+                    return forward(operation).map(data => {
+                        if (request) request.serverTiming.to(
+                                `${operation.operationName}-${id}`
+                            );
+                        return data;
+                    });
+
+    article.screen.screen--server-timing-use
+
+
+    article.screen.screen--server-timing.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Server Timing
+            img.overlay__qr(src="images/server-timing.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.w3.org/TR/2019/WD-server-timing-20190307/", data-click=true) https://www.w3.org/TR/2019/WD-server-timing-20190307/
+
+
+    article.center.trailer-title
+        .wrapper
+            h1 Trailer
+                br
+                | Header
+
+    article.screen.screen--ttfb-data
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    const {
+                        renderToNodeStream
+                        } = require("react-dom/server");
+                    const React = require("react");
+                    const express = require('express');
+                    const app = express();
+                    app.get('/', (req, res) => {/*…*/});
+                    app.listen(3000);
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html',
+                        'Transfer-Encoding': 'chunked'
+                    });
+                    res.write("&lt;main id='content'>");
+
+    article.center.code-1
+        .wrapper
+            pre
+                code.javascript.
+                    const stream = renderToNodeStream(
+                        React.createElement('p', null, 'XXX')
+                    );
+                    stream.pipe(res, { end: false });
+                    stream.on('end', () => {
+                        res.write("&lt;/main>").end();
+                    });
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.javascript.
+                    Server-Timing?
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    res.writeHead(200, {
+                        'Trailer': 'Server-Timing',
+                        // …
+                    });
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    stream.on('end', () => {
+                        res.write("&lt;/main>")
+                        res.addTrailers({
+                            'Server-Timing':
+                            'metric;desc="metric 2";dur=12'
+                        });
+                        res.end();
+                    });
+
+    article.screen.screen--trail
+
+    article.screen.screen--trailer.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Trailer
+            img.overlay__qr(src="images/trailer.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://tools.ietf.org/html/rfc7230#section-4.4", data-click=true) https://tools.ietf.org/html/rfc7230
+
+    //- article.center.trailer-title
+    //-     .wrapper
+    //-         h1 Trailer
+    //-             br
+    //-             | Header
+
+    //- article.screen.screen--ttfb-data
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 const {
+    //-                     renderToNodeStream
+    //-                     } = require("react-dom/server");
+    //-                 const React = require("react");
+    //-                 const express = require('express');
+    //-                 const app = express();
+    //-                 app.get('/', (req, res) => {/*…*/});
+    //-                 app.listen(3000);
+
+    //- article.center.code-6
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 res.writeHead(200, {
+    //-                     'Content-Type': 'text/html',
+    //-                     'Transfer-Encoding': 'chunked'
+    //-                 });
+    //-                 res.write("&lt;main id='content'>");
+
+    //- article.center.code-1
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 const stream = renderToNodeStream(
+    //-                     React.createElement('p', null, 'XXX')
+    //-                 );
+    //-                 stream.pipe(res, { end: false });
+    //-                 stream.on('end', () => {
+    //-                     res.write("&lt;/main>").end();
+    //-                 });
+
+    //- article.center.code-10
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 Server-Timing?
+
+    //- article.center.code-6
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 res.writeHead(200, {
+    //-                     'Trailer': 'Server-Timing',
+    //-                     // …
+    //-                 });
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 stream.on('end', () => {
+    //-                     res.write("&lt;/main>")
+    //-                     res.addTrailers({
+    //-                         'Server-Timing':
+    //-                         'metric;desc="metric 2";dur=12'
+    //-                     });
+    //-                     res.end();
+    //-                 });
+
+    //- article.screen.screen--trail
+
+    //- article.screen.screen--trailer.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title Trailer
+    //-         img.overlay__qr(src="images/trailer.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://tools.ietf.org/html/rfc7230#section-4.4", data-click=true) https://tools.ietf.org/html/rfc7230
+
+    //- article.center.hint-title
+    //-     .wrapper
+    //-         h1 Resource
+    //-             br
+    //-             | Hints
+
+    //- article.center.code-1
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 HTTP/1.1 200 OK
+    //-                 Link: &lt;https://widget.com>;
+    //-                     rel=dns-prefetch
+    //-                 Link: &lt;https://example.com>;
+    //-                     rel=preconnect
+    //-                 Link: &lt;https://example.com/next-page.html>;
+    //-                     rel=prerender;
+    //-                 Link: &lt;https://example.com/logo-hires.jpg>;
+    //-                     rel=prefetch; as=image;
+
+    //- article.center.code-1
+    //-     .wrapper
+    //-         pre
+    //-             code.html.
+    //-                 &lt;link rel="dns-prefetch"
+    //-                     href="//widget.com">
+    //-                 &lt;link rel="preconnect"
+    //-                     href="//cdn.example.com">
+    //-                 &lt;link rel="prerender"
+    //-                     href="//example.com/next-page.html">
+    //-                 &lt;link rel="prefetch"
+    //-                     href="//example.com/logo-hires.jpg"
+    //-                     as="image">
+
+    //- article.screen.screen--hints.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title Resource Hints
+    //-         img.overlay__qr(src="images/hint.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://w3c.github.io/resource-hints/", data-click=true) https://w3c.github.io/resource-hints/
+
+
+
+    //- article.center.preload-title
+    //-     .wrapper
+    //-         h1 Preload
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.html.
+    //-                 &lt;link
+    //-                     rel="preload"
+    //-                     href="/goodmojo.css"
+    //-                     as="style">
+
+    //- article.center.code-8
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 HTTP/1.1 200 OK
+    //-                 Link:
+    //-                     &lt;/badmojo.css>;
+    //-                     rel=preload;
+    //-                     as=style
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 res.set('Link', [
+    //-                     '&lt;/badmojo.css>; rel=preload;
+    //-                         as=style',
+    //-                     '&lt;/badmojo.js>; rel=preload;
+    //-                         as=script',
+    //-                     '&lt;/font.ttf>; rel=preload;
+    //-                         as=font']);
+
+    //- article.screen.screen--link
+
+    //- article.screen.screen--preload.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title Preload
+    //-         img.overlay__qr(src="images/preload.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://w3c.github.io/preload/", data-click=true) https://w3c.github.io/preload/
+
+    //- article.screen.screen--ttfb-data
+
+    //- article.center.hint-title
+    //-     .wrapper
+    //-         h1 103 Early
+    //-             br
+    //-             | Hints
+
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 HTTP/1.1 103 Early Hints
+    //-                 Link:
+    //-                     &lt;/hintmojo.css>;
+    //-                     rel=preload;
+    //-                     as=style
+
+    //-                 HTTP/1.1 200 OK
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.bash.
+    //-                 npm i -S early-hints
+
+    //- article.center.code-8
+    //-     .wrapper
+    //-         pre
+    //-             code.bash.
+    //-                 app.use(earlyHints([{
+    //-                     path: '/hintmojo.css',
+    //-                     rel: 'preload',
+    //-                     as: 'style'
+    //-                 }]));
+
+    //- article.screen.screen--linkhint
+
+
+    //- article.screen.screen--hint.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title 103 Hint status
+    //-         img.overlay__qr(src="images/trailer.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://tools.ietf.org/html/rfc7230#section-4.4", data-click=true) https://tools.ietf.org/html/rfc7230
+
+
+    //- article.center.clienthint-title
+    //-     .wrapper
+    //-         h1 Client
+    //-             br
+    //-             | Hints
+
+    //- article.center.code-6
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 Accept-CH:
+    //-                     Save-Data,
+    //-                     Downlink,
+    //-                     Device-Memory,
+    //-                     DPR,
+    //-                     Viewport-Width,
+    //-                     Width
+
+    //- article.center.code-0
+    //-     .wrapper
+    //-         pre
+    //-             code.html.
+    //-                 &lt;meta
+    //-                     http-equiv="Accept-CH"
+    //-                     content="Save-Data
+    //-                         Downlink,
+    //-                         Device-Memory,
+    //-                         DPR,
+    //-                         Viewport-Width,
+    //-                         Width" />
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 'save-data': 'on',
+    //-                 'downlink': '7.95',
+    //-                 'device-memory': '8',
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 'dpr': '1',
+    //-                 'viewport-width': '1306',
+    //-                 'width': '327',
+
+    //-             //- 7.95 Mbps
+
+    //- article.screen.screen--memory
+
+    //- article.screen.screen--downlink
+
+    //- //- article.center.code-9
+    //- //-     .wrapper
+    //- //-         pre
+    //- //-             code.html.
+    //- //-                 &lt;img
+    //- //-                     src="..."
+    //- //-                     sizes="25vw" />
+
+    //- article.center.code-8
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 Accept-CH-Lifetime: 86400
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.http.
+    //-                 Vary: Device-Memory
+
+
+    //- //- article.center.client-title
+    //- //-     .wrapper
+    //- //-         h1 Client-
+    //- //-             br
+    //- //-             | Side
+
+    //- article.screen.screen--ch-can
+
+    //- article.screen.screen--ch.overlay
+    //-     .overlay__abstract.overlay__abstract--right
+    //-         h5.overlay__title HTTP Client Hints
+    //-         img.overlay__qr(src="images/ch.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://httpwg.org/http-extensions/client-hints.html", data-click=true) https://httpwg.org/http-extensions/client-hints.html
+
+
+    article.center.client-title
+        .wrapper
+            h1 Perfor
+                br
+                | mance
+
+    article.center.code-10
+        .wrapper
+            pre
+                code.javascript.
+                    Performance
+                    PerformanceObserver
+
+    article.screen.screen--performance
+
+    article.center.entry
+        .wrapper
+            ul.half
+                li mark
+                li measure
+                li navigation
+                li firstInput
+                li frame
+            ul.half
+                li resource
+                li longtask
+                li layoutShift
+                li paint
+                li …
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    PerformanceObserver.supportedEntryTypes
+
+    article.screen.screen--types
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    performance.getEntriesByType(entryType)
+                    performance.getEntriesByName(name)
+                    performance.getEntries()
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.javascript.
+                    const observer = new PerformanceObserver(handler);
+                    observer.observe({ entryTypes });
+
+
+    article.center.hires-time
+        .wrapper
+            h1 High Res.
+                br
+                | Time
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.javascript.
+                    performance.now()
+                    performance.timeOrigin
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const start = performance.now();
+                    const end = performance.now();
+                    const duration = end - start;
+
+    article.screen.screen--hirestime.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title High Resolution Time Level 2
+            img.overlay__qr(src="images/hirestime.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.w3.org/TR/2018/CR-hr-time-2-20180301/", data-click=true) https://www.w3.org/TR/2018/CR-hr-time-2-20180301/
+
+
+    article.center.client-title
+        .wrapper
+            h1 User
+                br
+                | Timing
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    performance.mark("startTask1");
+                    // Fetching data
+                    const url = '/api/v1/employees';
+                    const resource = await fetch(url);
+                    performance.mark("endTask1");
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const entries = performance
+                        .getEntriesByType("mark");
+                    for (const entry of entries) {
+                        console.table(entry.toJSON());
+                    }
+
+    article.screen.screen--mark
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    performance.measure(
+                        'task1',
+                        'startTask1',
+                        'endTask1'
+                    );
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const entries = performance
+                        .getEntriesByType("measure");
+                    for (const entry of entries) {
+                        console.table(entry.toJSON());
+                    }
+
+    article.screen.screen--measure
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    performance.clearMeasures('task1')
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    performance.measure('from start');
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const entries = performance
+                        .getEntriesByType("measure");
+                    for (const entry of entries) {
+                        console.table(entry.toJSON());
+                    }
+
+    article.screen.screen--measure-2
+
+    article.screen.screen--timing.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title User Timing
+            img.overlay__qr(src="images/timing.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/user-timing/", data-click=true) https://w3c.github.io/user-timing/
+
+    article.screen.screen--timing-can
+
+
+    article.center.navigation-time
+        .wrapper
+            h1 Navigation
+                br
+                | Timing
+
+    //- article.screen.screen--timing-overview
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.javascript.
+                    performance.navigation
+
+    //- article.screen.screen--timing-f
+
+    //- article.screen.screen--navigation
+
+    article.screen.screen--navi
+
+    article.screen.screen--navigation-timing.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Navigation Timing
+            img.overlay__qr(src="images/navigation-timing.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.w3.org/TR/2012/REC-navigation-timing-20121217/", data-click=true) https://www.w3.org/TR/2012/REC-navigation-timing-20121217/
+
+    article.center.resource-time
+        .wrapper
+            h1 Resource
+                br
+                | Timing
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const entries = performance
+                        .getEntriesByType("resource");
+                    for (const entry of entries) {
+                        console.table(entry.toJSON());
+                    }
+
+    article.screen.screen--resource
+
+    article.screen.screen--resource-timing.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Resource Timing
+            img.overlay__qr(src="images/resource.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/resource-timing/", data-click=true) https://w3c.github.io/resource-timing/
+
+    article.center.paint
+        .wrapper
+            h1 Paint
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const entries = performance
+                        .getEntriesByType("paint");
+                    for (const entry of entries) {
+                        console.table(entry.toJSON());
+                    }
+
+    article.screen.screen--painttask
+
+    article.screen.screen--paint.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Paint Timing 1
+            img.overlay__qr(src="images/paint.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/paint-timing/", data-click=true) https://w3c.github.io/paint-timing/
+
+
+    article.center.long
+        .wrapper
+            h1 Long
+                br
+                | Task
+
+    article.center.code-2
+        .wrapper
+            pre
+                code.javascript.
+                    const observer = new PerformanceObserver(
+                        (list, observer)=>{
+                            const perfEntries = list.getEntries();
+                            for (var i = 0; i < perfEntries.length; i++) {
+                                console.log(perfEntries[i]);
+                      }});
+                    observer.observe({ entryTypes: ['longtask'] });
+
+    article.screen.screen--longtasktask
+
+    article.screen.screen--longtask
+
+    article.screen.screen--long.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Long Tasks API 1
+            img.overlay__qr(src="images/long.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/longtasks/", data-click=true) https://w3c.github.io/longtasks/
+
+
+    article.screen.screen--self.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title JS profiling API
+            img.overlay__qr(src="images/self.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://github.com/WICG/js-self-profiling", data-click=true) https://github.com/WICG/js-self-profiling
+
+    article.center.layout
+        .wrapper
+            h1 Layout
+                br
+                | Instability
+                br
+                | API
+
+    article.screen.screen--instability
+
+    article.screen.screen--instability-spec.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Layout Instability API
+            img.overlay__qr(src="images/layout.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://wicg.github.io/layout-instability/", data-click=true) https://bit.ly/2lyJOKy
+
+    article.screen.screen--rumtalk.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Measuring Real User Performance in the Browser
+            img.overlay__qr(src="images/rumtalk.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://www.youtube.com/watch?v=yrWLi524YLM", data-click=true) https://www.youtube.com/watch?v=yrWLi524YLM
+
+    article.center.frame
+        .wrapper
+            h1 Frame
+                br
+                | Timing
+
+
+    article.screen.screen--frame.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Frame Timing
+            img.overlay__qr(src="images/layout.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://wicg.github.io/frame-timing/", data-click=true) https://wicg.github.io/frame-timing/
+
+
+    article.center.battery
+        .wrapper
+            h1 Battery
+                br
+                | Status
+                br
+                | API
+
+    article.screen.screen--battery
+
+    article.screen.screen--battery-spec.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Battery Status API
+            img.overlay__qr(src="images/battery.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/battery/", data-click=true) https://w3c.github.io/battery/
+
+
+    article.center.network
+        .wrapper
+            h1 Network
+                br
+                | Information
+                br
+                | API
+
+    article.screen.screen--network
+
+    article.screen.screen--network-spec.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Network Information API
+            img.overlay__qr(src="images/network.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://wicg.github.io/netinfo/", data-click=true) https://wicg.github.io/netinfo/
+
+
+    article.center.beacon
+        .wrapper
+            h1 Beacon
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    const express = require('express');
+                    const multer = require('multer');
+                    const port = 3333;
+                    const app = express();
+
+    article.center.code-6
+        .wrapper
+            pre
+                code.javascript.
+                    app.use('/reports',
+                        multer().none(),
+                        function (req, res) {
+                            res.status(204).end();
+                            console.log(req.body);
+                    });
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    app.use('/', function (req, res) {
+                            res.send(`
+                                &lt;script>
+                                    /* … */
+                                &lt;/script>
+                            `).status(200).end();
+                    });
+                    app.listen(port);
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    let data = new FormData();
+                    let items = {
+                        some: 'data',
+                        more: ['words', 'aside'],
+                    };
+
+    article.center.code-7
+        .wrapper
+            pre
+                code.javascript.
+                    for ( var key in items ) {
+                        data.append(
+                            key,
+                            items[key]
+                        );
+                    }
+
+    article.center.code-0
+        .wrapper
+            pre
+                code.javascript.
+                    navigator.sendBeacon('/reports', data);
+
+    article.center.code-9
+        .wrapper
+            pre
+                code.javascript.
+                    {
+                        some: 'data',
+                        more: 'words,aside'
+                    }
+
+    article.screen.screen--beacon.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Beacon
+            img.overlay__qr(src="images/beacon.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://w3c.github.io/beacon/", data-click=true) https://w3c.github.io/beacon/
+
+
+    article.screen.screen--beacon-can
+
+    article.screen.screen--w3c.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title World Wide Web Consortium
+            img.overlay__qr(src="images/w3c.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://github.com/w3c/", data-click=true) https://github.com/w3c/
+
+
+    article.screen.screen--wicg.overlay
+        .overlay__abstract.overlay__abstract--right
+            h5.overlay__title Web Incubator CG
+            img.overlay__qr(src="images/wicg.svg", alt="QRCODE cо ссылкой")
+            p
+                a.overlay__link(href="https://github.com/WICG/", data-click=true) https://github.com/WICG/
+
+
+    //- article.center.code-9
+    //-     .wrapper
+    //-         pre
+    //-             code.javascript.
+    //-                 performance
+
+    //- article.center.hint-title
+    //-     .wrapper
+    //-         h1 Performance
+    //-             br
+    //-             | Observer
+
+
+    //- article.screen.screen--ast-explorer.overlay
+    //-     .overlay__abstract.overlay__abstract--left
+    //-         h5.overlay__title AST Explorer
+    //-         img.overlay__qr(src="images/ast-explorer.svg", alt="QRCODE cо ссылкой")
+    //-         p
+    //-             a.overlay__link(href="https://astexplorer.net/", data-click=true) https://astexplorer.net/
+
+    //- article.illustration.illustration--eslint
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         $ mkdir eslint-plugin-demoforfix
+    //-         $ cd eslint-plugin-demoforfix
+    //-         $ npm init
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.json.
+    //-         // package.json
+    //-         {
+    //-           "name": "eslint-plugin-demoforfix",
+    //-           "version": "1.0.0",
+    //-           "main": "no-string-classname.js",
+    //-         }
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         // no-string-classname.js
+    //-         module.exports = {
+    //-           rules: {
+    //-               "no-string-classname": {
+    //-                   create: function (context) {
+    //-                     return {…}
+    //-         }}}};
+
+    //- article.screen.screen--ast-find
+
+    //- article.center.code-7
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         context.report({
+    //-           message,
+    //-           node,
+    //-           //…
+    //-         });
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         return {
+    //-           "JSXAttribute": function (node) {
+    //-             // …
+    //-           }
+    //-         }
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         if ((node.name.name === 'className')
+    //-           && (node.value.type === 'Literal')) {
+    //-           context.report({
+    //-             node,
+    //-             message: 'You should use
+    //-             css modules instead'
+    //-           });
+    //-         }
+
+    //- article.center.code-9
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         $ npm version minor
+    //-         $ npm publish
+
+    //- article.screen.screen--publish
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         $ npm i -D eslint-plugin-demoforfix
+
+    //- article.center.code-1
+    //-   .wrapper
+    //-     pre
+    //-       code.json.
+    //-         // .eslintrc
+    //-         {
+    //-           "rules": {
+    //-             "demoforfix/no-string-classname": 2
+    //-           },
+    //-           "plugins": [
+    //-             "demoforfix"
+    //-           ],
+    //-         }
+
+    //- article.screen.screen--eslint-error
+
+    //- article.screen.screen--easy
+
+    //- article.illustration.illustration--unacceptable
+
+    //- article.illustration.illustration--yo
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.bash.
+    //-         $ sudo npm install -g yo
+    //-         $ sudo npm install -g generator-eslint
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.bash.
+    //-         $ mkdir eslint-plugin-demoforfix
+    //-         $ cd eslint-plugin-demoforfix
+    //-         $ yo eslint:plugin
+    //-         $ npm i
+
+    //- article.screen.screen--yo
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.json.
+    //-         // package.json
+    //-         {
+    //-           "name": "eslint-plugin-demoforfix",
+    //-           "version": "1.0.0",
+    //-           "main": "lib/index.js",
+    //-         }
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         var requireIndex =
+    //-           require("requireindex");
+    //-         module.exports.rules =
+    //-           requireIndex(__dirname + "/rules");
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         // no-string-classname.js
+    //-         module.exports = {
+    //-           rules: {
+    //-             "no-string-classname": {
+    //-                 create: function (context) {
+    //-                   return {…}
+    //-         }}}};
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         // no-string-classname.js
+    //-         module.exports = {
+    //-           meta: {…},
+    //-           "no-string-classname": {
+    //-               create: function (context) {
+    //-                 return {…}
+    //-         }}};
+
+    //- article.center.code-2
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         const rule =
+    //-           require("../../../lib/rules/no-string-classname");
+    //-         const RuleTester = require("eslint").RuleTester;
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         const parserOptions = {
+    //-           ecmaVersion: 2018,
+    //-           sourceType: 'module',
+    //-           ecmaFeatures: {jsx: true}};
+    //-         const ruleTester =
+    //-           new RuleTester({parserOptions});
+
+    //- article.center.code-0
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         ruleTester.run(
+    //-           "no-string-classname",
+    //-           rule, {
+    //-           valid: [{…}, {…}],
+    //-           invalid: [{…}, {…}],
+    //-         });
+
+    //- article.center.code-9
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         {
+    //-           code: '…'
+    //-         }
+
+    //- article.center.code-7
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         { code: '…',
+    //-         errors: [{
+    //-             message: "You should use
+    //-               css modules instead",
+    //-             type: "JSXAttribute"
+    //-         }]}
+
+    //- article.center.code-9
+    //-   .wrapper
+    //-     pre
+    //-       code.javascript.
+    //-         $ npm t
+
+    //- article.screen.screen--test
+
+    //- article.screen.screen--develop.overlay
+    //-   .overlay__abstract.overlay__abstract--right
+    //-     h5.overlay__title ESLint Developer Documentation
+    //-     img.overlay__qr(src="images/develop.svg", alt="QRCODE cо ссылкой")
+    //-     p
+    //-       a.overlay__link(href="https://eslint.org/docs/developer-guide/architecture", data-click=true) https://goo.gl/RpEUbq
+
+    article.illustration.illustration--culture
+        a.career(href="https://www.careersatwerkspot.com/vacancies/", data-click=true) https://careersatwerkspot.com/vacancies/
+
+    article.contacts.center.qrcode
+        .wrapper
+            .about-speaker.half
+                p.name Anton Nemtsev
+                img.logo(src="images/logo.svg", alt="Werkspot")
+                p.link http://silentimp.info/
+                p.twitter @silentimp
+                p.email thesilentimp@gmail.com
+                p.skype skype: ravencry
+            .half
+                img(src="images/git.svg", alt="QRCODE cо ссылкой на доклад")
+            p
+                a(href="https://github.com/SilentImp/PerformanceUa", data-click=true) https://bit.ly/2NEgTPQ

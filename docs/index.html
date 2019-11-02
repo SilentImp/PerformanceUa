@@ -1,0 +1,455 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><title>Продуктивність</title><link href="css/styles.css" rel="stylesheet"><link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"><link rel="shortcut icon" href="images/favicon.ico"><script data-main="js/presentation" src="js/requirejs/require.js"></script></head><body><form class="go-to-page" action="/select/slide" method="post"><fieldset><input type="text" maxlength="3" value="" placeholder="1"></fieldset></form><section class="progress"><div class="value"></div></section><section class="dark" id="slides"><article class="illustration illustration--title center"><div class="wrapper"><h1>Продуктивнiсть</h1></div></article><article class="center text-title size-1"><div class="wrapper"><h1>Проблема</h1></div><div class="subtitle"><p>— What problem are we solving?</p></div></article><article class="illustration illustration--degradation"><h1>ДеградацiяДеградацiя</h1><div class="subtitle"><p>— A project with the best performance ever will loose its performance with each new feature.</p></div></article><article class="center text-title size-2"><div class="wrapper"><h1>Мета</h1></div></article><article class="center illustration illustration--prevent"><div class="wrapper"><h1>Запобiгти</h1></div><div class="subtitle"><p>— We need to prevent this kind of degradation!</p></div></article><article class="center illustration illustration--prevent"><div class="wrapper"><h1>Вимiрювати</h1></div><div class="subtitle"><p>— Best way to do it: measure performance on a regular basis.</p></div></article><article class="center metrics"><div class="wrapper"><h1>Метрики</h1><ul class="half"><li>Time to first byte</li><li>Total byte weight</li><li>Network request count</li><li>First meaningful paint</li></ul><ul class="half"><li>Speed index</li><li>First input delay</li><li>Time to interactive</li><li>Bundle size</li><li>…</li></ul></div><div class="subtitle"><p>— Choose metrics. Which one? It highly depends on your context.</p></div></article><article class="center competitors"><div class="wrapper"><h1>Конкуренти допоможуть</h1><ul class="half"><li>Marktplaats</li><li>Kluswebsite</li><li>Casius</li><li>Zoofy</li></ul><ul class="half"><li>Skydreams</li><li>Solvari</li><li>Yonego</li><li>Offerte.nl</li></ul></div><div class="subtitle"><p>— How to set target values? Make a list of your competitors and set your goals on their basis.</p></div></article><article class="center illustration illustration--bear"><div class="subtitle"><p>— When you are chased by a bear you don't need to be an Olympic champion in running.</p></div></article><article class="center illustration illustration--bear-2"><div class="subtitle"><p>— You just need to be faster than the other guy.</p></div></article><article class="center percent-title"><div class="wrapper"><h1>+20%</h1></div><div class="subtitle"><p>— Let's add to competitors metrics 20%. It's a magic number so user really may see the difference with the naked eye.</p></div></article><article class="center illustration illustration--box"></article><article class="screen screen--performancebudget overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Визначте бажаний час</h5><img class="overlay__qr" src="images/performancebudget.svg" alt="QRCODE with link"><p><a class="overlay__link" href="http://www.performancebudget.io/" data-click>http://www.performancebudget.io/</a></p></div></article><article class="center types"><div class="wrapper"><h1>Типи вимiрювань</h1><div class="half"><img src="images/glass2.png" alt="lab"></div><div class="half"><img src="images/rum.jpg" alt="lab"></div></div><div class="subtitle"><p>— There are two types of measurements: laboratory and real user measurements.</p></div></article><article class="center pipeline-title"><div class="wrapper"><h1>continuous<br>integration</h1></div><div class="subtitle"><p>— We use laboratory measurements locally and in the CI</p></div></article><article class="center pipeline-title"><div class="wrapper"><h1>Розмiр бандла</h1></div><div class="subtitle"><p>— Let's start with a bundle size as an easy pick</p></div></article><article class="screen screen--size-limit overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Size Limit</h5><img class="overlay__qr" src="images/sizelimiturl.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://github.com/ai/size-limit/" data-click>https://github.com/ai/size-limit/</a></p></div><div class="subtitle"><p>- This package is created by Andrey Sitnik and best pick for libraries.</p></div></article><article class="center code-0"><div class="wrapper"><pre><code class="bash">npm i -D size-limit/preset-small-lib
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="diff">// package.json
++ "size-limit": [
++   {
++     "path": "index.js"
++   }
++ ],
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="diff">// package.json
+"scripts": {
++   "size": "size-limit",
+    "test": "jest && eslint ."
+}
+</code></pre></div></article><article class="center code-9"><div class="wrapper"><pre><code class="shell">npm run size
+</code></pre></div></article><article class="screen screen--size-limit-first"></article><article class="center code-7"><div class="wrapper"><pre><code class="diff">// package.json
+"size-limit": [
+    {
++       "limit": "2 KB",
+        "path": "index.js"
+    }
+],
+</code></pre></div></article><article class="screen screen--size-limit-second"></article><article class="screen screen--size-limit-err"></article><article class="illustration illustration--gitlab-runner"></article><article class="screen screen--artifacts overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">GitLab Artifacts</h5><img class="overlay__qr" src="images/artifacts.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://docs.gitlab.com/ee/ci/yaml/README.html#artifacts" data-click>https://bit.ly/2knRWgE</a></p></div></article><article class="center code-1"><div class="wrapper"><pre><code class="yml"># .gitlab-ci.yml
+script:
+    - npm run size
+artifacts:
+    expire_in: 7 days
+    paths:
+        - metric.txt
+    reports:
+        metrics: metric.txt
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="diff">// package.json
+"scripts": {
+-    "size": "size-limit",
++    "size": "size-limit --json
++       > size-limit.json",
++    "postsize": "node generate-metric.js
++       > metric.txt"
+    "test": "jest && eslint ."
+},
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="json">// size-limit.json
+[{
+    "name": "index.js",
+    "passed": true,
+    "size": 1957
+}]
+
+</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code>// generate-metric.js
+const report = require('./size-limit.json');
+process.stdout.write(`size ${(report[0].size/1024).toFixed(1)}`);
+process.exit(0);
+</code></pre></div></article><article class="center code-10"><div class="wrapper"><pre><code>// metric.txt
+size 1.19
+</code></pre></div></article><article class="screen screen--prometeus overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Prometheus text-based format</h5><img class="overlay__qr" src="images/prometheusText.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format" data-click>https://bit.ly/2kbi6mZ</a></p></div></article><article class="screen screen--metric-one"></article><article class="center code-0"><div class="wrapper"><pre><code>metric1Name: currentValue1 (OldValue1)
+metric2Name: currentValue2 (OldValue2)
+</code></pre></div></article><article class="screen screen--metric-one overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Example with library</h5><img class="overlay__qr" src="images/lib.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://gitlab.com/silentimp/metrics-test/merge_requests/3" data-click>https://bit.ly/2jVaDZ3</a></p></div></article><article class="illustration illustration--webpack"></article><article class="center code-6"><div class="wrapper"><pre><code class="json">"performance": {
+    "hints": "warning",
+    "maxEntrypointSize": 400000,
+    "maxAssetSize": 100000
+}
+</code></pre></div></article><article class="screen screen--native"></article><article class="screen screen--native2"></article><article class="center code-9"><div class="wrapper"><pre><code class="bash">webpack
+    --profile
+    --json
+    > stats.json
+</code></pre></div></article><article class="illustration illustration--nextjs"></article><article class="center code-0"><div class="wrapper"><pre><code class="bash">npm i -S @zeit/next-bundle-analyzer</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">// next.config.js
+const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+module.exports = withBundleAnalyzer({/* … */});
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">// next.config.js
+const nextConfig = {
+    analyzeBrowser: true,
+    bundleAnalyzerConfig: {/* … */},
+    webpack (config) {
+        return config;
+    }};
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="js">// next.config.js
+browser: {
+    analyzerMode: 'disabled',
+    generateStatsFile: true,
+    statsFilename: 'client.json',
+    statsOptions: {/* … */},
+}},
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="json">statsOptions: {
+    chunks: true,
+    assets: false,
+    cached: false,
+    cachedAssets: false,
+    chunkModules: false,
+    chunkOrigins: false,
+    entrypoints: false,
+    modules: false,
+    reasons: false }
+</code></pre></div></article><article class="screen screen--bundle"></article><article class="screen screen--bundle overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Example with next.js</h5><img class="overlay__qr" src="images/bundle.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://gitlab.com/silentimp/bundlemetrics/merge_requests/3" data-click>https://bit.ly/2jVaDZ3</a></p></div></article><article class="center logotypes"><div class="wrapper"><div class="half"><img src="images/octocat.png" alt="logotype"></div><div class="half"><img width="80%" src="images/travisci.png" alt="logotype"></div></div></article><article class="screen screen--checks overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">GitHub Checks</h5><img class="overlay__qr" src="images/checks.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://developer.github.com/v3/checks/" data-click>https://developer.github.com/v3/checks/</a></p></div></article><article class="screen screen--statuses overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">GitHub Statuses</h5><img class="overlay__qr" src="images/statuses.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://developer.github.com/v3/repos/statuses/" data-click>https://developer.github.com/v3/repos/statuses/</a></p></div></article><article class="screen screen--bundlesize-npm overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Bundlesize</h5><img class="overlay__qr" src="images/bundlesize.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://www.npmjs.com/package/bundlesize" data-click>https://www.npmjs.com/package/bundlesize</a></p></div></article><article class="center code-8"><div class="wrapper"><pre><code class="json">npm install -D bundlesize
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="json">// bundlesize.config.json
+{"files": [
+    {
+        "path": "./.next/static/chunks/*.js",
+        "maxSize": "300 kB"
+    },
+    …
+]}
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="diff">// package.json
+"scripts": {
++   "test": "bundlesize",
+}
+</code></pre></div></article><article class="center code-10"><div class="wrapper"><pre><code>npm t
+</code></pre></div></article><article class="screen screen--bundlesize-success"></article><article class="screen screen--bundlesize-fail"></article><article class="center code-3"><div class="wrapper"><pre><code class="yaml"># .travis.yml
+language: node_js
+node_js:
+    - 10
+branches:
+    only:
+        - master
+install:
+    - npm ci
+    - npm run build
+script:
+    - npm t
+</code></pre></div></article><article class="screen screen--bundlesize-app overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Give bundlesize app access to your repos</h5><img class="overlay__qr" src="images/bundlesize-app.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://github.com/login/oauth/authorize?scope=repo%3Astatus&amp;client_id=6756cb03a8d6528aca5a" data-click>https://bit.ly/2kpdVnA</a></p></div></article><article class="center code-2"><div class="wrapper"><pre><code>travis encrypt BUNDLESIZE_GITHUB_TOKEN=token --add
+</code></pre></div></article><article class="screen screen--bundlesize-1"></article><article class="screen screen--bundlesize-2"></article><article class="screen screen--bundlesize-app-fail"></article><article class="screen screen--codechecks overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Codechecks</h5><img class="overlay__qr" src="images/codechecks.svg" alt="QRCODE with link"><p><a class="overlay__link" href="https://codechecks.io" data-click>https://codechecks.io</a></p></div></article><article class="center sitespeed-title"><div class="wrapper"><h1>site<br>speed.io</h1></div></article><article class="screen screen--sitespeed overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Sitespeed</h5><img class="overlay__qr" src="images/sitespeed.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.sitespeed.io/" data-click>https://www.sitespeed.io/</a></p></div></article><article class="screen screen--sitespeed-docs overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">How to use sitespeed in GitLab CI</h5><img class="overlay__qr" src="images/sitespeed-docs.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://docs.gitlab.com/ee/ci/examples/browser_performance.html" data-click>https://bit.ly/2kbYhfj</a></p></div></article><article class="center code-0"><div class="wrapper"><pre><code class="yaml"># .gitlab-ci.yml
+stages:
+    - performance
+performance:
+    stage: performance
+    image: docker:git
+    services:
+        - docker:stable-dind
+</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code class="yaml"># .gitlab-ci.yml
+script:
+    - mkdir gitlab-exporter
+    - wget -O ./gitlab-exporter/index.js
+        https://gitlab.com/gitlab-org
+        /gl-performance/raw/master/index.js
+    - mkdir sitespeed-results
+    - docker run --shm-size=1g --rm -v
+        "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io:9.8.1
+        --plugins.add ./gitlab-exporter
+        --outputFolder sitespeed-results
+        http://werkspot.nl/inloggen/
+    - mv sitespeed-results/data/performance.json
+        performance.json
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="yaml"># .gitlab-ci.yml
+artifacts:
+    expire_in: 7 days
+    paths:
+        - performance.json
+    reports:
+        performance: performance.json
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="json">// performance.json
+[{
+    "subject":"/",
+    "metrics":[{
+        "name":"Transfer Size (KB)",
+        "value":"19.5",
+        "desiredSize":"smaller"
+    }]}]
+</code></pre></div></article><article class="screen screen--sitespeed-example"></article><article class="screen screen--sitespeed-example overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Sitespeed example</h5><img class="overlay__qr" src="images/sitespeed-example.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://gitlab.com/silentimp/sitespeed-test/merge_requests/1" data-click>https://bit.ly/2kbWqHn</a></p></div></article><article class="center lighthouse-title"><div class="wrapper"><h1>lighthouse</h1></div></article><article class="center logotypes"><div class="wrapper"><div class="half"><img src="images/puppeteer.png" alt="logotype"></div><div class="half"><img src="images/pwa-lighthouse.png" alt="logotype"></div></div></article><article class="center code-10"><div class="wrapper"><pre><code class="bash">npm i -D lighthouse
+npm i -D puppeteer
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const browser =
+    await puppeteer.launch({
+        args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--headless'
+        ]});
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">const lighthouseConfig = {
+    port: (
+        new URL(browser.wsEndpoint())
+    ).port,
+    output: 'json',
+    logLevel: 'info',
+};
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const auditConfig = {
+    extends: 'lighthouse:default',
+    settings: {
+    onlyCategories: ['performance']
+}};
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">const auditConfig = {
+    extends: 'lighthouse:full'
+};
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">const {
+    report: reportJSON,
+    lhr: {
+        audits
+    }} = await lighthouse(
+        'http://werkspot.nl/',
+        lighthouseConfig,
+        auditConfig);
+
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">if (audits["speed-index"].score < 0.75)
+        process.exit(1);
+process.exit(0);
+
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">const {categories: {
+    performance: {
+        score
+    }
+}} = JSON.parse(reportJSON);
+if (score < 0.75)
+        process.exit(1);
+process.exit(0);
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="javascript">const report = JSON.stringify([{
+    "subject": '/inloggen',
+    "metrics": metrics.map(metric => ({
+        "name": metric.title,
+        "value": metric.value,
+        "desiredSize": "larger",
+    }))
+}]);
+fs.writeFileSync(`./performance.json`, report);
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="yml"># .gitlab-ci.yml
+image: node:latest
+
+stages:
+- performance
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="yml">lighthouse:
+    stage: performance
+    before_script:
+        - apt-get update
+        - apt-get -y install gconf-service …
+        - npm ci
+    script:
+        - node performance.js
+</code></pre></div></article><article class="deps"><div class="wrapper">gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget</div></article><article class="center code-0"><div class="wrapper"><pre><code class="yml">artifacts:
+    expire_in: 7 days
+    paths:
+        - performance.json
+    reports:
+        performance: performance.json
+
+</code></pre></div></article><article class="screen screen--lighthouse-art"></article><article class="screen screen--lighthouse-art overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Lighthouse example</h5><img class="overlay__qr" src="images/demo.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://gitlab.com/silentimp/lighthouse" data-click>https://gitlab.com/silentimp/lighthouse</a></p></div></article><article class="screen screen--lighthouse-metric"></article><article class="screen screen--lighthouse-metric-example"></article><article class="screen screen--lighthouse-metric-example overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Lighthouse example (the cool one)</h5><img class="overlay__qr" src="images/demoreport.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://gitlab.com/silentimp/lighthousereport" data-click>https://bit.ly/2m6m80d</a></p></div></article><article class="center code-2"><div class="wrapper"><pre><code class="javascript">const page = await browser.newPage();
+await page.goto(url, { waitUntil: 'networkidle2' });
+await page.click('input[name=email]');
+await page.keyboard.type(USER_EMAIL);
+await page.click('input[name=password]');
+await page.keyboard.type(USER_PASSWORD);
+await page.click('button[type="submit"]',
+    { waitUntil: 'domcontentloaded' });
+
+</code></pre></div></article><article class="screen screen--gist"></article><article class="screen screen--gist overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Lighthouse script gist</h5><img class="overlay__qr" src="images/gist.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://gist.github.com/SilentImp/1a770e4f5b9d8dc1e0e92c54f76357f9" data-click>https://gitlab.com/silentimp/lighthouse</a></p></div></article><article class="screen screen--lighthouse overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Lighthouse</h5><img class="overlay__qr" src="images/lighthouse.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://developers.google.com/web/tools/lighthouse/" data-click>https://bit.ly/2jnLfpG</a></p></div></article><article class="screen screen--puppeteer-screen overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Puppeteer</h5><img class="overlay__qr" src="images/puppeteer.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://pptr.dev/" data-click>https://pptr.dev/</a></p></div></article><article class="center text-title"><div class="wrapper"><h1>Server<br>Timing</h1></div></article><article class="center text-title-5"><div class="wrapper"><h1>Нащо<br>це<br>нам?</h1></div></article><article class="center list"><div class="wrapper"><ul><li>Передайте результати вимiрювань з сервера до клієнта</li><li>Може використовуватися для розподіленого трасування</li><li>Допомагає у логуваннi та відлагоджуваннi</li></ul></div></article><article class="center text-title-2"><div class="wrapper"><h1>Що воно<br>таке?</h1></div></article><article class="center code-9"><div class="wrapper"><pre><code class="http">Server-Timing:
+    cache;
+    desc="Cache Read";
+    dur=23.2
+</code></pre></div></article><article class="center code-9"><div class="wrapper"><pre><code class="http">Server-Timing: cache
+</code></pre></div></article><article class="center text-title-3"><div class="wrapper"><h1>Що<br>воно<br>робить?</h1></div></article><article class="screen screen--server-timing-screen-opera"></article><article class="center code-1"><div class="wrapper"><pre><code class="javascript">performance.getEntriesByType('navigation');
+performance.getEntriesByType('resource');
+</code></pre></div></article><article class="screen screen--client-server-timing"></article><article class="center text-title-4"><div class="wrapper"><h1>Де воно робить?</h1></div></article><article class="screen screen--server-timing-caniuse"></article><article class="screen screen--blink-edge"></article><article class="screen screen--server-timing-screen"></article><article class="screen screen--server-timing-screen-opera"></article><article class="screen screen--server-timing-screen-safari"></article><article class="center code-9"><div class="wrapper"><pre><code class="javascript">Timing-Allow-Origin: *
+</code></pre></div></article><article class="center code-10"><div class="wrapper"><pre><code class="javascript">Chrome v60-64
+</code></pre></div></article><article class="center code-10"><div class="wrapper"><pre><code class="javascript">Server-Timing:
+    cache=23.2;
+    "Cache Read"
+</code></pre></div></article><article class="center code-9"><div class="wrapper"><pre><code class="javascript">HTTPS
+
+</code></pre></div></article><article class="screen screen--server-timing-screen-email"></article><article class="screen screen--server-timing-screen-ff"></article><article class="center text-title-7"><div class="wrapper"><h1>Як кори&shy;стуватися?</h1></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">const express = require('express');
+const app = express();
+app.get('/', (req, res) => {
+    //…
+    res.send(200).end();
+});
+app.listen(3000);
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">res.set(
+    'Server-Timing',
+    'cache;
+     desc="Cache Read";
+     dur=23.2');
+</code></pre></div></article><article class="screen screen--server-timing-screen"></article><article class="center text-title-1"><div class="wrapper"><h1>Як вимi&shy;рювати?</h1></div></article><article class="center code-8"><div class="wrapper"><pre><code class="javascript">// node.js v0.7.6
+process.hrtime();
+// integer[]
+// [ seconds, nanoseconds ]
+// [ 8063, 904046009 ]
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code>const from = process.hrtime();
+const duration = process.hrtime(from);
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">// To milliseconds
+const ms = parseInt(
+            duration[0] * 1e3 +
+            duration[1] * 1e-6,
+           10);
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">// node.js v10.7.0, Stage 3
+const from = process.hrtime.bigint();
+const to = process.hrtime.bigint();
+const duration = to - from;
+// To milliseconds
+const ms = duration / 1000000n;
+
+</code></pre></div></article><article class="screen screen--bigint overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">BigInt</h5><img class="overlay__qr" src="images/bigint.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://tc39.github.io/proposal-bigint/" data-click>https://tc39.github.io/proposal-bigint/</a></p></div></article><article class="center text-title-6"><div class="wrapper"><h1>Потрiбен iнструмент!</h1></div></article><article class="screen screen--npm-server-timing overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Server Timing npm package</h5><img class="overlay__qr" src="images/npm-server-timing.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.npmjs.com/package/server-timing-header" data-click>https://www.npmjs.com/package/server-timing-header</a></p></div></article><article class="center code-7"><div class="wrapper"><pre><code class="bash">npm i -S server-timing-header
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const express = require('express');
+const app = express();
+app.get('/', (req, res) => {
+    //…
+    res.send(200).end();
+});
+app.listen(3000);
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="diff">+ const serverTiming =
++    require('server-timing-header');
+  const express = require('express');
+  const app = express();
++ app.use(serverTiming());
+  app.get('/', (req, res) => {
+      //…
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">req.serverTiming.from('db');
+// fetching data from database
+req.serverTiming.to('db');
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">req.serverTiming.add(
+    'cache', // name
+    'Cache Read', //description
+    23.2 // value
+);
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">req.serverTiming.add(
+    'cache',
+    'Element not in cache',
+);
+</code></pre></div></article><article class="screen screen--server-timing-screen"></article><article class="center text-title-2"><div class="wrapper"><h1>Наведи приклад</h1></div></article><article class="center code-1"><div class="wrapper"><pre><code class="javascript">import { ApolloLink } from 'apollo-link';
+import uuidv4 from 'uuid/v4';
+
+const serverTimingLink = request =>
+    new ApolloLink((operation, forward) => {
+        /* … */
+    });
+
+export default serverTimingLink;
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="js">const id = uuidv4();
+if (request) request.serverTiming.from(
+        `${operation.operationName}-${id}`,
+        operation.operationName
+    );
+return forward(operation).map(data => {
+    if (request) request.serverTiming.to(
+            `${operation.operationName}-${id}`
+        );
+    return data;
+});
+</code></pre></div></article><article class="screen screen--server-timing-use"></article><article class="screen screen--server-timing overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Server Timing</h5><img class="overlay__qr" src="images/server-timing.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.w3.org/TR/2019/WD-server-timing-20190307/" data-click>https://www.w3.org/TR/2019/WD-server-timing-20190307/</a></p></div></article><article class="center trailer-title"><div class="wrapper"><h1>Trailer<br>Header</h1></div></article><article class="screen screen--ttfb-data"></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">const {
+    renderToNodeStream
+    } = require("react-dom/server");
+const React = require("react");
+const express = require('express');
+const app = express();
+app.get('/', (req, res) => {/*…*/});
+app.listen(3000);
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">res.writeHead(200, {
+    'Content-Type': 'text/html',
+    'Transfer-Encoding': 'chunked'
+});
+res.write("&lt;main id='content'>");
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="javascript">const stream = renderToNodeStream(
+    React.createElement('p', null, 'XXX')
+);
+stream.pipe(res, { end: false });
+stream.on('end', () => {
+    res.write("&lt;/main>").end();
+});
+</code></pre></div></article><article class="center code-10"><div class="wrapper"><pre><code class="javascript">Server-Timing?
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">res.writeHead(200, {
+    'Trailer': 'Server-Timing',
+    // …
+});
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">stream.on('end', () => {
+    res.write("&lt;/main>")
+    res.addTrailers({
+        'Server-Timing':
+        'metric;desc="metric 2";dur=12'
+    });
+    res.end();
+});
+</code></pre></div></article><article class="screen screen--trail"></article><article class="screen screen--trailer overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Trailer</h5><img class="overlay__qr" src="images/trailer.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://tools.ietf.org/html/rfc7230#section-4.4" data-click>https://tools.ietf.org/html/rfc7230</a></p></div></article><article class="center client-title"><div class="wrapper"><h1>Perfor<br>mance</h1></div></article><article class="center code-10"><div class="wrapper"><pre><code class="javascript">Performance
+PerformanceObserver
+</code></pre></div></article><article class="screen screen--performance"></article><article class="center entry"><div class="wrapper"><ul class="half"><li>mark</li><li>measure</li><li>navigation</li><li>firstInput</li><li>frame</li></ul><ul class="half"><li>resource</li><li>longtask</li><li>layoutShift</li><li>paint</li><li>…</li></ul></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">PerformanceObserver.supportedEntryTypes
+</code></pre></div></article><article class="screen screen--types"></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">performance.getEntriesByType(entryType)
+performance.getEntriesByName(name)
+performance.getEntries()
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="javascript">const observer = new PerformanceObserver(handler);
+observer.observe({ entryTypes });
+
+</code></pre></div></article><article class="center hires-time"><div class="wrapper"><h1>High Res.<br>Time</h1></div></article><article class="center code-9"><div class="wrapper"><pre><code class="javascript">performance.now()
+performance.timeOrigin
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const start = performance.now();
+const end = performance.now();
+const duration = end - start;
+</code></pre></div></article><article class="screen screen--hirestime overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">High Resolution Time Level 2</h5><img class="overlay__qr" src="images/hirestime.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.w3.org/TR/2018/CR-hr-time-2-20180301/" data-click>https://www.w3.org/TR/2018/CR-hr-time-2-20180301/</a></p></div></article><article class="center client-title"><div class="wrapper"><h1>User<br>Timing</h1></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">performance.mark("startTask1");
+// Fetching data
+const url = '/api/v1/employees';
+const resource = await fetch(url);
+performance.mark("endTask1");
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const entries = performance
+    .getEntriesByType("mark");
+for (const entry of entries) {
+    console.table(entry.toJSON());
+}
+</code></pre></div></article><article class="screen screen--mark"></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">performance.measure(
+    'task1',
+    'startTask1',
+    'endTask1'
+);
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const entries = performance
+    .getEntriesByType("measure");
+for (const entry of entries) {
+    console.table(entry.toJSON());
+}
+</code></pre></div></article><article class="screen screen--measure"></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">performance.clearMeasures('task1')
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">performance.measure('from start');
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const entries = performance
+    .getEntriesByType("measure");
+for (const entry of entries) {
+    console.table(entry.toJSON());
+}
+</code></pre></div></article><article class="screen screen--measure-2"></article><article class="screen screen--timing overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">User Timing</h5><img class="overlay__qr" src="images/timing.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/user-timing/" data-click>https://w3c.github.io/user-timing/</a></p></div></article><article class="screen screen--timing-can"></article><article class="center navigation-time"><div class="wrapper"><h1>Navigation<br>Timing</h1></div></article><article class="center code-9"><div class="wrapper"><pre><code class="javascript">performance.navigation
+</code></pre></div></article><article class="screen screen--navi"></article><article class="screen screen--navigation-timing overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Navigation Timing</h5><img class="overlay__qr" src="images/navigation-timing.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.w3.org/TR/2012/REC-navigation-timing-20121217/" data-click>https://www.w3.org/TR/2012/REC-navigation-timing-20121217/</a></p></div></article><article class="center resource-time"><div class="wrapper"><h1>Resource<br>Timing</h1></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const entries = performance
+    .getEntriesByType("resource");
+for (const entry of entries) {
+    console.table(entry.toJSON());
+}
+</code></pre></div></article><article class="screen screen--resource"></article><article class="screen screen--resource-timing overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Resource Timing</h5><img class="overlay__qr" src="images/resource.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/resource-timing/" data-click>https://w3c.github.io/resource-timing/</a></p></div></article><article class="center paint"><div class="wrapper"><h1>Paint</h1></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const entries = performance
+    .getEntriesByType("paint");
+for (const entry of entries) {
+    console.table(entry.toJSON());
+}
+</code></pre></div></article><article class="screen screen--painttask"></article><article class="screen screen--paint overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Paint Timing 1</h5><img class="overlay__qr" src="images/paint.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/paint-timing/" data-click>https://w3c.github.io/paint-timing/</a></p></div></article><article class="center long"><div class="wrapper"><h1>Long<br>Task</h1></div></article><article class="center code-2"><div class="wrapper"><pre><code class="javascript">const observer = new PerformanceObserver(
+    (list, observer)=>{
+        const perfEntries = list.getEntries();
+        for (var i = 0; i < perfEntries.length; i++) {
+            console.log(perfEntries[i]);
+  }});
+observer.observe({ entryTypes: ['longtask'] });
+</code></pre></div></article><article class="screen screen--longtasktask"></article><article class="screen screen--longtask"></article><article class="screen screen--long overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Long Tasks API 1</h5><img class="overlay__qr" src="images/long.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/longtasks/" data-click>https://w3c.github.io/longtasks/</a></p></div></article><article class="screen screen--self overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">JS profiling API</h5><img class="overlay__qr" src="images/self.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://github.com/WICG/js-self-profiling" data-click>https://github.com/WICG/js-self-profiling</a></p></div></article><article class="center layout"><div class="wrapper"><h1>Layout<br>Instability<br>API</h1></div></article><article class="screen screen--instability"></article><article class="screen screen--instability-spec overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Layout Instability API</h5><img class="overlay__qr" src="images/layout.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://wicg.github.io/layout-instability/" data-click>https://bit.ly/2lyJOKy</a></p></div></article><article class="screen screen--rumtalk overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Measuring Real User Performance in the Browser</h5><img class="overlay__qr" src="images/rumtalk.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://www.youtube.com/watch?v=yrWLi524YLM" data-click>https://www.youtube.com/watch?v=yrWLi524YLM</a></p></div></article><article class="center frame"><div class="wrapper"><h1>Frame<br>Timing</h1></div></article><article class="screen screen--frame overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Frame Timing</h5><img class="overlay__qr" src="images/layout.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://wicg.github.io/frame-timing/" data-click>https://wicg.github.io/frame-timing/</a></p></div></article><article class="center battery"><div class="wrapper"><h1>Battery<br>Status<br>API</h1></div></article><article class="screen screen--battery"></article><article class="screen screen--battery-spec overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Battery Status API</h5><img class="overlay__qr" src="images/battery.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/battery/" data-click>https://w3c.github.io/battery/</a></p></div></article><article class="center network"><div class="wrapper"><h1>Network<br>Information<br>API</h1></div></article><article class="screen screen--network"></article><article class="screen screen--network-spec overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Network Information API</h5><img class="overlay__qr" src="images/network.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://wicg.github.io/netinfo/" data-click>https://wicg.github.io/netinfo/</a></p></div></article><article class="center beacon"><div class="wrapper"><h1>Beacon</h1></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">const express = require('express');
+const multer = require('multer');
+const port = 3333;
+const app = express();
+</code></pre></div></article><article class="center code-6"><div class="wrapper"><pre><code class="javascript">app.use('/reports',
+    multer().none(),
+    function (req, res) {
+        res.status(204).end();
+        console.log(req.body);
+});
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">app.use('/', function (req, res) {
+        res.send(`
+            &lt;script>
+                /* … */
+            &lt;/script>
+        `).status(200).end();
+});
+app.listen(port);
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">let data = new FormData();
+let items = {
+    some: 'data',
+    more: ['words', 'aside'],
+};
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="javascript">for ( var key in items ) {
+    data.append(
+        key,
+        items[key]
+    );
+}
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="javascript">navigator.sendBeacon('/reports', data);
+</code></pre></div></article><article class="center code-9"><div class="wrapper"><pre><code class="javascript">{
+    some: 'data',
+    more: 'words,aside'
+}
+</code></pre></div></article><article class="screen screen--beacon overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Beacon</h5><img class="overlay__qr" src="images/beacon.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://w3c.github.io/beacon/" data-click>https://w3c.github.io/beacon/</a></p></div></article><article class="screen screen--beacon-can"></article><article class="screen screen--w3c overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">World Wide Web Consortium</h5><img class="overlay__qr" src="images/w3c.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://github.com/w3c/" data-click>https://github.com/w3c/</a></p></div></article><article class="screen screen--wicg overlay"><div class="overlay__abstract overlay__abstract--right"><h5 class="overlay__title">Web Incubator CG</h5><img class="overlay__qr" src="images/wicg.svg" alt="QRCODE cо ссылкой"><p><a class="overlay__link" href="https://github.com/WICG/" data-click>https://github.com/WICG/</a></p></div></article><article class="illustration illustration--culture"><a class="career" href="https://www.careersatwerkspot.com/vacancies/" data-click>https://careersatwerkspot.com/vacancies/</a></article><article class="contacts center qrcode"><div class="wrapper"><div class="about-speaker half"><p class="name">Anton Nemtsev</p><img class="logo" src="images/logo.svg" alt="Werkspot"><p class="link">http://silentimp.info/</p><p class="twitter">@silentimp</p><p class="email">thesilentimp@gmail.com</p><p class="skype">skype: ravencry</p></div><div class="half"><img src="images/git.svg" alt="QRCODE cо ссылкой на доклад"></div><p><a href="https://github.com/SilentImp/PerformanceEn" data-click>https://bit.ly/2lQrJYt</a></p></div></article></section></body></html>
