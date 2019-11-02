@@ -2250,7 +2250,22 @@ body img.logo.logo.logo.logo
     font-size: 36px
     padding 20px
 
+.border
+    border 0px solid red
+    // background rgba(255, 0, 0, .3)
+    box-shadow: 0 0 0 1000px rgba(0,0,0,.5)
+    position absolute
+    top: 0
+    bottom 0
+    left 0
+    right 0
+    height 40px
+    margin auto
+    transform: translateY(-28px)
+
 .illustration
+    &--iphone
+        background-image url("../images/iphone.jpeg")
     &--if
         background-image url("../images/if.png")
         background-size contain
@@ -2342,6 +2357,10 @@ body img.logo.logo.logo.logo
     display block
 
 .screen
+    &--iphone-1
+        background-image url(../images/iphone2.png)
+    &--iphone-2
+        background-image url(../images/iphone3.png)
     &--rumtalk
         background-image url(../images/rumtalk.png)
     &--network
